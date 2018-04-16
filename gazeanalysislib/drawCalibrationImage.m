@@ -5,9 +5,10 @@ function drawCalibrationImage(domainpointsX, domainpointsY, rangepointsX, rangep
     % are connected to each other by a line.
     hfig = figure;
     plot(domainpointsX, domainpointsY, '.', rangepointsX, rangepointsY, 'ro');
+    set(gca,'YDir','reverse');
     hold on
     for i=1:length(domainpointsX)
-        plot([domainpointsX(i) rangepointsX(i)], [domainpointsY(i),rangepointsY(i)], 'black-');
+        plot([domainpointsX(i) rangepointsX(i)], [domainpointsY(i) rangepointsY(i)], 'black-');
     end
     hold off
     axis([0,1,0,1]);
