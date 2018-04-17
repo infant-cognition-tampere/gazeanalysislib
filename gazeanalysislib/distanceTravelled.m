@@ -6,7 +6,7 @@ function [distance_right, distance_left] = distanceTravelled(DATA, HEADERS, disp
     % that describes how many times wider display is than tall. E.G for 16:10
     % display, use 1.6. display_height is the height of the display in SI unit,
     % meters. E.G. for a 51cm tall display, use 0.51.
-    %% EXPERIMENTAL.
+    % EXPERIMENTAL.
 
     % search column values to use
     xgl = colNum(HEADERS, 'XGazePosLeftEye');

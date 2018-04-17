@@ -3,6 +3,7 @@ function drawCalibrationImage(domainpointsX, domainpointsY, rangepointsX, rangep
     %
     % Draws a calibration image for domain and rangepoints where the points
     % are connected to each other by a line.
+    
     hfig = figure;
     plot(domainpointsX, domainpointsY, '.', rangepointsX, rangepointsY, 'ro');
     set(gca,'YDir','reverse');

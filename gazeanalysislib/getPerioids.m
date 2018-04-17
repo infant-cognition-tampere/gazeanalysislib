@@ -3,6 +3,7 @@ function [perioids] = getPerioids(hittimes)
     %
     % Returns perioids of two or more consecutive indices. Perioids of
     % length one are not returned and therefore are omitted.
+    
     perioids = {};
     if isempty(hittimes)
         return;

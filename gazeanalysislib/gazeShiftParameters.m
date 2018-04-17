@@ -1,10 +1,9 @@
-function [velocityv, anglev, degchangev] = gazeShiftParameters(xvector, yvector, screen_width, screen_height, rate, angle_reference_vector)
-    %Function [velocityv, anglev, degchangev] = gazeShiftParameters(xvector, yvector, screen_width, screen_height, rate, angle_reference_vector)
+function [velocityv, anglev, degchangev] = gazeShiftParameters(xvector, yvector, screen_width, screen_height, rate, angle_reference_vector, head_distance)
+    %Function [velocityv, anglev, degchangev] = gazeShiftParameters(xvector, yvector, screen_width, screen_height, rate, angle_reference_vector, head_distance)
     %
-    % Returns 
+    % Returns gaze-signal parameters: velocityvector, anglevector and
+    % degreechangevector.
     
-    head_distance = 60;
-
     % calculate difference x and y
     deltaxv = diffVector(xvector);
     deltayv = diffVector(yvector);
@@ -28,10 +27,8 @@ function [velocityv, anglev, degchangev] = gazeShiftParameters(xvector, yvector,
         anglev(i) = angleBetweenVectors(angle_reference_vector, v);
     end
 
-    % vectors speed in radians with eyes
+    % vectors speed in radians with eyes, "visual angle"
     degchangev = 2*atand((absvector./2)./head_distance);
-
-    %should be okay till here
 
     % turn to visual_angle/s
     sample_time = 1/rate;
