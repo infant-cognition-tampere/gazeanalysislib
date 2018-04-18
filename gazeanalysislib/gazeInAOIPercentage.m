@@ -9,9 +9,6 @@ function [percentage] = gazeInAOIPercentage(DATA, xcol, ycol, durationcol, aoico
 
     rowcount = rowCount(DATA);
 
-    % disp(['Finding percentage of gaze inside an aoi [' num2str(aoicoord(1)) ' ' num2str(aoicoord(2)) ' ' ...
-    %       num2str(aoicoord(3)) ' ' num2str(aoicoord(4)) '] (' num2str(rowcount) ' rows in data).']);
-
     % Find the indices of elements inside the aoi
     inside_bools = insideAOI(DATA{xcol}, DATA{ycol}, aoicoord);
     

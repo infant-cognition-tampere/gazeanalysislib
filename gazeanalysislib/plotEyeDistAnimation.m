@@ -31,7 +31,6 @@ function [hfig] = plotEyeDistAnimation(DATA, HEADERS, figtitle, delaytime, accep
         end
     end
 
-
     limits = [-100 100];
 
     % search column values to use
@@ -60,9 +59,7 @@ function [hfig] = plotEyeDistAnimation(DATA, HEADERS, figtitle, delaytime, accep
     common_mean = mean([mean_dist_l mean_dist_r]);
 
     rowcount = rowCount(DATA);
-
     starttime = getValue(DATA, 1, colNum(HEADERS, 'TETTime'));
-
     axlimits = [0 1 0 1];
 
     % create figure
@@ -75,10 +72,8 @@ function [hfig] = plotEyeDistAnimation(DATA, HEADERS, figtitle, delaytime, accep
 
     % initialize the upper axes for coordinates
     a1 = subplot(2,2,1);
-    h1 = plot(xl(1), yl(1), 'o', xr(1), yr(1), 'x'); %, 'erasemode', 'background');
+    h1 = plot(xl(1), yl(1), 'o', xr(1), yr(1), 'x');
     axis(axlimits);
-    %width = 0.40;
-    %set(gca, 'position', [(1-width)/2 0.5838 width 0.3412])
     title('Gaze in the display');
 
     % head position axis
@@ -116,7 +111,6 @@ function [hfig] = plotEyeDistAnimation(DATA, HEADERS, figtitle, delaytime, accep
     title('Eye distances');
     xlabel('Time from start (ms)');
     ylabel('Normalized distance, mm');
-
     original_ticks = get(gca,'YTickLabel');
 
     for i=1:length(original_ticks)
@@ -128,7 +122,6 @@ function [hfig] = plotEyeDistAnimation(DATA, HEADERS, figtitle, delaytime, accep
     end
 
     set(gca, 'YTickLabel', new_ticks);
-
     set(gcf, 'currentaxes', a1);
 
     for i=2:rowcount
@@ -156,17 +149,12 @@ function [hfig] = plotEyeDistAnimation(DATA, HEADERS, figtitle, delaytime, accep
         set(h1(1), 'Xdata', xl(1:i), 'Ydata', yl(1:i));
         set(h1(2), 'Xdata', xr(1:i), 'Ydata', yr(1:i));
 
-
         normal_vector = cross([eyedist DATA{ldc}(i) - DATA{rdc}(i) 0], [0 0 1]);
         set(h3(2), 'Ydata', [DATA{ldc}(i) DATA{rdc}(i)]);
         set(h3(3), 'Xdata', [center center-100*normal_vector(1)]);
         set(h3(3), 'Ydata', [mean([DATA{ldc}(i) DATA{rdc}(i)]) mean([DATA{ldc}(i) DATA{rdc}(i)]) + 100*normal_vector(2)]);
 
-
         set(h2(1), 'Xdata', [x(i) x(i)], 'Ydata', [limits(1) limits(2)]);
-        %xlabel(a2, ['Time: ' num2str(round(getValue(DATA, i, colNum(HEADERS, 'TETTime')) - starttime))]);
-
         drawnow;
-
         pause(delaytime);
     end

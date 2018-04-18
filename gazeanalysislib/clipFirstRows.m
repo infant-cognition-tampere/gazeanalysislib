@@ -6,8 +6,6 @@ function [DATA] = clipFirstRows(DATA, numrows)
     rowcount = rowCount(DATA);
     colcount = columnCount(DATA);
 
-    %disp(['Returning first ' num2str(numrows) ' rows (' num2str(rowcount) ' rows in data).'])
-
     % if there are more rows than minimum
     if numrows < rowcount
         % put all the columns after numrows as blank

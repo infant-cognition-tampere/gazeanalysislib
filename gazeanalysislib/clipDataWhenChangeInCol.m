@@ -9,8 +9,6 @@ function [clips] = clipDataWhenChangeInCol(DATA, column)
     rowcount = rowCount(DATA);
     colcount = columnCount(DATA);
 
-    %disp(['Clipping data (' num2str(rowcount) ' rows) when change in column ' num2str(column) '.']);
-
     % Format the return variable
     clips = {};
     if rowCount(DATA) == 0
@@ -21,7 +19,6 @@ function [clips] = clipDataWhenChangeInCol(DATA, column)
     % whenever there is a change in the data according to previous row's value.
     %wasdifferent = zeros(rowcount, 1);
     perioids = [];
-    %marker = 0;
     values = getColumnGAL(DATA, column);
     previous_value = getValueGAL(DATA, 1, column);
     start = 1;
@@ -35,18 +32,10 @@ function [clips] = clipDataWhenChangeInCol(DATA, column)
             start = i;
             previous_value = current_value;
         end
-%        wasdifferent(i) = marker;
     end
     
     % put the last perioid (last ending is not reached in the loop)
     perioids = [perioids;start i];
-
-    % Find perioids for 1's and 0's. Then combine these perioids.
-%    perioids = [getPerioids(find(wasdifferent==0)), getPerioids(find(wasdifferent==1))];
-
-    % Sort these perioids according to the first column. So that clips are in
-    % order.
-%    sorted_perioids = sortCellOfVectorsByFirstNumber(perioids);
 
     % Construct data clips with values from the original matrix placed on rows
     % from the extracted perioids.

@@ -10,7 +10,6 @@ function [hfig] = plotGaze1d(DATA, xgr, xgl, ygr, ygl)
     plot([DATA{xgr} DATA{xgl} DATA{ygr} DATA{ygl}]);
 
     axis([0 rowcount+1 0 1]);
-    %axis tight;
 
     xlabel('Datapoint');
     ylabel('Pixel coordinate');

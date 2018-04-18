@@ -32,8 +32,8 @@ function [hfig] = plotHeatmap(intensity_matrix, xhm, yhm, imageparameters, trans
         coord = parameters{2};
         siz = size(img{i});
 
-        imxn = [0:1:siz(2)]./siz(2).*(coord(2)-coord(1)) + coord(1);%-1/2*siz(2)/xres+0.5;
-        imyn = [0:1:siz(1)]./siz(1).*(coord(4)-coord(3)) + coord(3);%-1/2*siz(1)/yres+0.5;
+        imxn = [0:1:siz(2)]./siz(2).*(coord(2)-coord(1)) + coord(1);
+        imyn = [0:1:siz(1)]./siz(1).*(coord(4)-coord(3)) + coord(3);
 
         imghandle(i) = image(imxn, imyn, img{i});
         set(imghandle(i),'CDataMapping','scaled');%otherwise,it will effect the colorbar
@@ -44,11 +44,8 @@ function [hfig] = plotHeatmap(intensity_matrix, xhm, yhm, imageparameters, trans
     % calculate and plot heatmap over the imagelayer
     hold on;
     colormap(cmap)
-    %colormap('hot');
-    %colormap(flipud(colormap));
     imagetoplot = intensity_matrix;
-    %imagetoplot = green;
-    himg = imagesc(xhm, yhm, imagetoplot);% *10000);
+    himg = imagesc(xhm, yhm, imagetoplot);
     hold off;
     set(gca, 'Clim', clim);
     colorbar;

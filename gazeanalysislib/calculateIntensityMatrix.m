@@ -11,8 +11,6 @@ function [intensity_normalized, xin, yin] = calculateIntensityMatrix(xcol, ycol,
     % Intensity heatmap values are also normalized by dividing each point's
     % intensity value by total number of samples.
 
-    %disp('Calculating gaze intensity matrix.');
-
     % form intensity-matrix (+1 to add zero)
     intensity = zeros(HM_yresolution, HM_xresolution);
 
@@ -42,9 +40,6 @@ function [intensity_normalized, xin, yin] = calculateIntensityMatrix(xcol, ycol,
     % normalize intensity matrix
     %intensity_normalized = intensity./max(max(intensity));
     intensity_normalized = intensity./(dpoints);
-
-    % Make a truecolor all-green image. (if you want one color-image)
-    %green = cat(3, zeros(size(intensity)), ones(size(intensity)), zeros(size(intensity)));
 
     xi=0:HM_xresolution-1;
     xi = xi+0.5;

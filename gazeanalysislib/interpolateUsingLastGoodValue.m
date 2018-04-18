@@ -9,15 +9,11 @@ function [DATA] = interpolateUsingLastGoodValue(DATA, column, validitycolumn, ac
     % appearing good value to interpolate that.
 
     rowcount = rowCount(DATA);
-    %disp(['Interpolating: using last good (or first good) value (' num2str(rowcount) ' rows in data).']);
-
     validityvector = DATA{validitycolumn};
 
     % if the first value of the vector is bad, find the first non-bad.
-    %over_zero = find(datavector >= 0);
-    good_samples = ismember(validityvector, accepted_validities);
-
     % take the first non-bad number and set that as first good
+    good_samples = ismember(validityvector, accepted_validities);
     first_good = find(good_samples, 1, 'first');
 
     % check that there was at least one good value
@@ -32,7 +28,6 @@ function [DATA] = interpolateUsingLastGoodValue(DATA, column, validitycolumn, ac
     % pidetaanko yli yhden interpolaatio/smoothingvaiheessa?
 
     for i=1:rowcount
-       % if ~ismember(validityvector(i), accepted_validities) % invalid data
         if ~good_samples(i)
             datavector(i) = last_non_bad;
         else

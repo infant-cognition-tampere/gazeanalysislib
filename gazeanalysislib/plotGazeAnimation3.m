@@ -54,13 +54,10 @@ function [hfig] = plotGazeAnimation3(DATA, columns, figtitle, delaytime, ...
         tags = getColumn(DATA, tagcol);
         utags = unique(tags);
 
-     %   tagplot = zeros(length(tags), 1);
         tagplot = [];
         for i=1:length(utags)
-            %tagplot = zeros(length(tags), 1);
             found_tags = strcmp(tags, utags(i));
             tagplot(i,:) = found_tags;
-            %tagplot = tagplot + found_tags*i;
         end
     end
 
@@ -123,7 +120,7 @@ function [hfig] = plotGazeAnimation3(DATA, columns, figtitle, delaytime, ...
     a3 = subplot(4,1,4);
     for i=1:length(extravector)
         hold on
-        h3 = plot(x, extravector{i});%, 'markersize', 3);
+        h3 = plot(x, extravector{i});
         hold off
     end
     axis([min(x) max(x) extravectorlimits(1) extravectorlimits(2)]);

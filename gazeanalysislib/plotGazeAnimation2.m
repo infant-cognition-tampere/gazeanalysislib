@@ -56,7 +56,6 @@ function [hfig] = plotGazeAnimation2(DATA, columns, figtitle, ...
     % create figure
     scrsz = get(0,'ScreenSize');
     hfig = figure('Position', [0.2*scrsz(3) 0.2*scrsz(4) scrsz(3)/2 scrsz(4)/1.5]);
-    %hfig = figure;
     set(hfig, 'name', figtitle, 'numbertitle', 'off');
 
     % initialize the upper axes for coordinates
@@ -108,7 +107,6 @@ function [hfig] = plotGazeAnimation2(DATA, columns, figtitle, ...
     title('Gaze coordinates');
     xlabel('Time from start (ms)');
     ylabel('Eye coordinates (normalized)');
-
     set(gcf, 'currentaxes', a1);
 
     for i=2:rowcount
@@ -134,7 +132,6 @@ function [hfig] = plotGazeAnimation2(DATA, columns, figtitle, ...
         end
 
         set(h1(1), 'Xdata', xl(1:i), 'Ydata', yl(1:i));
-
         set(h2(1), 'Xdata', [x(i) x(i)], 'Ydata', [limits(1) limits(2)]);
 
         % uncomment if drawing too slow

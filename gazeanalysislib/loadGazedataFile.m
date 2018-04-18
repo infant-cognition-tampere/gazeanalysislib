@@ -25,9 +25,6 @@ function [DATA, HEADERS] = loadGazedataFile(file, columncount, dataformat)
 
     % form header format string
     headerformat = ['%s' repmat(' %s', 1, columncount-1)];
-    %for i=1:columncount-1
-    %    headerformat = [headerformat ' %s'];
-    %end
 
     %Read header lines
     HEADERS = textscan(str, headerformat, 1);

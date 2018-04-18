@@ -13,7 +13,6 @@ function [newdatacol, newvalcol] = combineEyes(DATA, col1, col2, c1val, c2val, a
     % function containing result-coordinate and result-validity.
 
     rowcount = rowCount(DATA);
-    % disp(['Combining two coordinate columns into one using validity-column (' num2str(rowcount) ' rows in data).']);
 
     badcoordinate = -1;
     badvalidity = -1;
@@ -28,9 +27,6 @@ function [newdatacol, newvalcol] = combineEyes(DATA, col1, col2, c1val, c2val, a
     one_is_ok = and(validities_c1_ok, ~validities_c2_ok);
     two_is_ok = and(~validities_c1_ok, validities_c2_ok);
     both_ok = and(validities_c1_ok, validities_c2_ok);    
-    % both_bad = and(~validities_c1_ok, ~validities_c2_ok);    
-    % those that have both bad are to be set -> invalid
-    % newvalcol(both_bad) = badvalidity
 
     % format new vectors, value vector first full of bad value ->
     % improve on every occasion
@@ -39,8 +35,6 @@ function [newdatacol, newvalcol] = combineEyes(DATA, col1, col2, c1val, c2val, a
 
     % put okay validities if either or both (or) validities are accepted
     newvalcol(or(one_is_ok, two_is_ok)) = ok_validity;
-    %newvalcol(one_is_ok) = ok_validity;
-    %newvalcol(two_is_ok) = ok_validity;
     
     % first put new values to eyes so that second one might overwrite first
     % in the occasion when both are good

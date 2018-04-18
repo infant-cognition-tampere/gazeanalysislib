@@ -58,13 +58,10 @@ function [hfig] = plotGazeAnimation4(DATA, columns, figtitle, delaytime, ...
         tags = getColumn(DATA, tagcol);
         utags = unique(tags);
 
-     %   tagplot = zeros(length(tags), 1);
         tagplot = [];
         for i=1:length(utags)
-            %tagplot = zeros(length(tags), 1);
             found_tags = strcmp(tags, utags(i));
             tagplot(i,:) = found_tags;
-            %tagplot = tagplot + found_tags*i;
         end
     end
 
@@ -76,9 +73,7 @@ function [hfig] = plotGazeAnimation4(DATA, columns, figtitle, delaytime, ...
 
     % create figure
     scrsz = get(0,'ScreenSize');
-    %hfig = figure('Position', [0.2*scrsz(3) 0.2*scrsz(4) scrsz(3)/2 scrsz(4)/1.5]);
     hfig = figure('Position', [0.2*scrsz(3) 0.05*scrsz(4) scrsz(3)*0.6 scrsz(4)*0.85]);
-    %hfig = figure;
     set(hfig, 'name', figtitle, 'numbertitle', 'off');
 
     % initialize the upper axes for coordinates
@@ -101,9 +96,6 @@ function [hfig] = plotGazeAnimation4(DATA, columns, figtitle, delaytime, ...
     p3d2 = Visualization3d(a2, screenheight, screenwidth, trackerwidth, tracker_angle, 90, 0, 'Side', taillen);
     a3 = subplot(1,3,3);
     p3d3 = Visualization3d(a3, screenheight, screenwidth, trackerwidth, tracker_angle, 0, 90, 'Top', taillen);
-    %p3d.enableGazevectors();
-    %p3d2.enableGazevectors();
-    %p3d3.enableGazevectors();
 
     disp_text_area = uicontrol('Style', 'text', 'string', disptext, ...
                                'horizontalalignment', 'left', 'units', ...
@@ -120,12 +112,11 @@ function [hfig] = plotGazeAnimation4(DATA, columns, figtitle, delaytime, ...
 
         p3d2.eyeLocUpdate(1, [x1v(i) y1v(i) z1v(i)], eyesize);
         p3d2.eyeLocUpdate(2, [x2v(i) y2v(i) z2v(i)], eyesize);
-        p3d2.gazeLocUpdate([cx(i)], [cy(i)]) %(cx(i), cy(i));
+        p3d2.gazeLocUpdate([cx(i)], [cy(i)])
 
         p3d3.eyeLocUpdate(1, [x1v(i) y1v(i) z1v(i)], eyesize);
         p3d3.eyeLocUpdate(2, [x2v(i) y2v(i) z2v(i)], eyesize);
         p3d3.gazeLocUpdate([cx(i)], [cy(i)]);
-        %p3d3.gazeLocUpdate([cx(i) c2x(i)], [cy(i) c2y(i)]);
 
         pause(delaytime);
 

@@ -27,8 +27,3 @@ function [distance_right, distance_left] = distanceTravelled(DATA, HEADERS, disp
         distance_right = distance_right + sqrt(xrdist^2+yrdist^2);
         distance_left = distance_left + sqrt(xldist^2+yldist^2);
     end
-
-
-%
-% distance_right = xrdist*display_ratio*display_height + yrdist*display_height;
-% distance_left = xldist*display_ratio*display_height + yldist*display_height;

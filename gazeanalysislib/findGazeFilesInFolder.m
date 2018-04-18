@@ -4,8 +4,6 @@ function [files] = findGazeFilesInFolder(folder, ending)
     % Returns the full pathnames of gazefiles in the folder. The gazefiles 
     % ending is specified as a parameter. (e.g. '.gazedata' or '.csv')
 
-    %disp(['Retrieving the gazefiles in the folder ' folder '...']);
-
     all_files = dir(folder);
     filecounter = 0;
     files = {};

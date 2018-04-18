@@ -6,8 +6,6 @@ function [DATA] = clipFirstMilliSeconds(DATA, timecol, millisec)
     rowcount = rowCount(DATA);
     colcount = columnCount(DATA);
 
-    %disp(['Returning first ' num2str(millisec) ' milliseconds (' num2str(rowcount) ' rows in data).']);
-
     millisec_at_start = getValueGAL(DATA, 1, timecol);
 
     if millisec <= 0

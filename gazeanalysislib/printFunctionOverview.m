@@ -12,13 +12,10 @@ function printFunctionOverview
     for i=1:length(files)
 
         filename = files(i).name;
-
         [a, b, c] = fileparts(filename);
 
         if ~files(i).isdir && strcmp(c, '.m') && exist(filename) == 2
-
             help(filename)
-
             disp(' ');
         end
     end

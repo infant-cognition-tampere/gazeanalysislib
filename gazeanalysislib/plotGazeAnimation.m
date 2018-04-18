@@ -35,8 +35,8 @@ function [hfig] = plotGazeAnimation(DATA, columns, figtitle, delaytime, ...
     end
 
     % columns to use
-    xgl = columns(1); % colNum(HEADERS, 'CombinedX');
-    ygl = columns(2); %colNum(HEADERS, 'CombinedY');
+    xgl = columns(1);
+    ygl = columns(2);
 
     % make a subplot fot tags
     if length(columns) == 5
@@ -44,16 +44,12 @@ function [hfig] = plotGazeAnimation(DATA, columns, figtitle, delaytime, ...
         tags = getColumn(DATA, tagcol);
         utags = unique(tags);
 
-     %   tagplot = zeros(length(tags), 1);
         tagplot = [];
         for i=1:length(utags)
-            %tagplot = zeros(length(tags), 1);
             found_tags = strcmp(tags, utags(i));
             tagplot(i,:) = found_tags;
-            %tagplot = tagplot + found_tags*i;
         end
     end
-
 
     xl = DATA{xgl};
     yl = DATA{ygl};
@@ -108,12 +104,7 @@ function [hfig] = plotGazeAnimation(DATA, columns, figtitle, delaytime, ...
         x(i) = getValue(DATA, i, columns(4)) - starttime;
     end
 
-    %x = 1:rowcount;
     limits = [-0.1 1.1];
-
-    %debug
-    %rowCount(DATA)
-    %markertimes
 
     h2 = plot([0 0], [limits(1) limits(2)], 'r',  x, DATA{xgl}, x, DATA{ygl}, x, ...
               valrp, '.', x(markertimes), DATA{xgl}(markertimes), 'ko');%, 'markersize', 3);
@@ -135,9 +126,6 @@ function [hfig] = plotGazeAnimation(DATA, columns, figtitle, delaytime, ...
     ylabel('Eye coordinates (normalized)');
 
     set(gcf, 'currentaxes', a1);
-
-    % if uncheck, makes the drawing significantly slower
-    %legend(h2, 'Time', 'XR', 'XL', 'YR','YL', 'VR', 'VL', 'Location','NorthEastOutside');
 
     for i=2:rowcount
 
@@ -162,9 +150,7 @@ function [hfig] = plotGazeAnimation(DATA, columns, figtitle, delaytime, ...
         end
 
         set(h1(1), 'Xdata', xl(1:i), 'Ydata', yl(1:i));
-
         set(h2(1), 'Xdata', [x(i) x(i)], 'Ydata', [limits(1) limits(2)]);
-        %xlabel(a2, ['Time: ' num2str(round(getValue(DATA, i, colNum(HEADERS, 'TETTime')) - starttime))]);
 
         % uncomment if drawing too slow
         if mod(i,5)==0

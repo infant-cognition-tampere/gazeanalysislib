@@ -6,7 +6,6 @@ function [DATA] = removeRowsContainingValue(DATA, column, value)
 
     rowcount = rowCount(DATA);
     colcount = columnCount(DATA);
-    %disp(['Removing rows containing value ' num2str(value) ' (' num2str(rowcount) ' rows in data).']);
     rows_found = [];
 
     for i=1:rowcount

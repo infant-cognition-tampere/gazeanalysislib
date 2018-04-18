@@ -17,8 +17,6 @@ function [isgood] = testDataConsistency(DATA)
         end
     end
 
-    if isgood
-       %disp(' Data consistency test passed.');
-    else
+    if ~isgood
        disp(' Data consistency test not passed.');
     end

@@ -11,8 +11,6 @@ function [rownumber] = gazeInAOIRow(DATA, xcol, ycol, aoicoord, type)
     %        'last' returns the last row gaze was in the aoi
     %        'firstleave' returns the first row of gaze leaving the aoi
 
-    % disp(['Finding a row when gaze passes aoi border [' num2str(aoicoord(1)) ' ' num2str(aoicoord(2)) ' ' ...
-    %        num2str(aoicoord(3)) ' ' num2str(aoicoord(4)) '] type:' type '.']);
 
     x = getColumnGAL(DATA, xcol);
     y = getColumnGAL(DATA, ycol);
@@ -33,15 +31,4 @@ function [rownumber] = gazeInAOIRow(DATA, xcol, ycol, aoicoord, type)
             if isempty(rownumber)
                 rownumber = rowCount(DATA);  
             end
-%             % if not found to leave aoi, return max number of rows
-%             rownumber = rowCount(data);
-% 
-%             for i=1:length(x)
-%                 % coordinates outside the specific aoi
-%                 if ~insideAOI(x(i), y(i), aoicoord) && ~timefound
-%                     %(aoicoord(1) > x(i) || x(i) > aoicoord(2) || aoicoord(3) > y(i) || y(i) > aoicoord(4)) && ~timefound
-%                     rownumber = i;
-%                     timefound = 1;
-%                 end
-%             end
     end

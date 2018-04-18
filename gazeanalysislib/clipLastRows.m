@@ -6,8 +6,6 @@ function [DATA] = clipLastRows(DATA, cutrow)
     rowcount = rowCount(DATA);
     colcount = columnCount(DATA);
 
-    %disp(['Clipping rows after row ' num2str(cutrow) ' (' num2str(rowcount) ' rows in data).']);
-
     % if there are more rows than minimum
     if cutrow < rowcount
         % put all the columns after numrows as blank

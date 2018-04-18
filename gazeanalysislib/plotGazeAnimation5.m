@@ -84,12 +84,6 @@ function [hfig] = plotGazeAnimation5(DATA, columns, figtitle, delaytime, ...
     tracker_angle = 20;
 
     p3d = Visualization3d(a1, screenheight, screenwidth, trackerwidth, tracker_angle, az, el, '3D-visualization', taillen);
-    % draw aoi's to upper axis
-    %for i=1:length(aois)
-    %    hold on;
-    %    p3d.addAoi(aois{i})
-    %    hold off;
-    %end
 
     % initialize the lower axes for time-view
     a2 = subplot(4,1,3);
@@ -108,12 +102,9 @@ function [hfig] = plotGazeAnimation5(DATA, columns, figtitle, delaytime, ...
 
     limits = [-0.1 1.1];
 
-    %h2 = plot([0 0], [limits(1) limits(2)], 'r',  x, xg, x, yg, x, ...
-    %          valrp, '.', x(markertimes), xg(markertimes), 'ko');%, 'markersize', 3);
-
     % draw the main plot for x,y,validity,markers,tags
     h2 = plot([0 0], [limits(1) limits(2)], 'r',  x, xg, x, yg, x, ...
-              valrp, '.', x(markertimes), xg(markertimes), 'ko', x, 100*tagplot'-99, '.');%, 'markersize', 3);
+              valrp, '.', x(markertimes), xg(markertimes), 'ko', x, 100*tagplot'-99, '.');
 
     % draw legends, variable length of words for the graphs
     marks = {};
@@ -121,38 +112,24 @@ function [hfig] = plotGazeAnimation5(DATA, columns, figtitle, delaytime, ...
           marks = 'Markertimes';
     end
     l = legend(h2, [{'Timepoint', 'X','Y','Validity'} marks utags']);
-    set(l, 'Position', [0.77 0.57 0.135 0.1034]); %0.135
+    set(l, 'Position', [0.77 0.57 0.135 0.1034]);
 
     % draw the bottom plot for user defined things to plot
     a3 = subplot(4,1,4);
     for i=1:length(extravector)
         hold on
-        h3 = plot(x, extravector{i});%, 'markersize', 3);
+        h3 = plot(x, extravector{i});
         hold off
     end
     axis([min(x) max(x) extravectorlimits(1) extravectorlimits(2)]);
 
     set(gcf, 'currentaxes', a2)
-    %if length(columns) >= 5
-    %    hold on
-        %hk = plot(x, 0.9+0.05*tagplot', '.');
-    %    hk = plot(x, 100*tagplot'-99, '.');
-    %    hold off
-    %    l = legend(hk, utags);
-    %    set(l, 'Position', [0.77 0.52 0.135 0.1034]); %1632 1234
-    %end
-
     axis([min(x) max(x) limits(1) limits(2)]);
-
-    %xlabel(['Time: ' '0']);
     title('Gaze coordinates');
     xlabel('Time from start (ms)');
     ylabel('Eye coordinates (normalized)');
-
     set(gcf, 'currentaxes', a1);
 
-    % if uncheck, makes the drawing significantly slower
-    %legend(h2, 'Time', 'XR', 'XL', 'YR','YL', 'VR', 'VL', 'Location','NorthEastOutside');
     for i=1:steplen:rowcount
 
         % update timenow-vector location

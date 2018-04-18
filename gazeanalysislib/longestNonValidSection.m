@@ -9,9 +9,6 @@ function [longest_streak] = longestNonValidSection(DATA, valcol, ...
     % accepted_validities is a cell-array of validity-markings considered
     % acceptable.
 
-    %disp(['Calculating longest non-valid section (' num2str(rowCount(DATA)) ...
-    %      ' rows in data).']);
-
     validityvector = DATA{valcol};
     timevector = DATA{timecol};
 

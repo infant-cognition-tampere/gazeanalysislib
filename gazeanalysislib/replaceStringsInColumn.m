@@ -5,7 +5,5 @@ function [DATA] = replaceStringsInColumn(DATA, column, value_before, value_after
     % by column (number) in DATA.
 
     datavec = DATA{column};
-
     datavec(strcmp(datavec, value_before)) = {value_after};
-
     DATA{column} = datavec;
