@@ -203,6 +203,10 @@ assert(iswithintol1, 'Time that gaze is inside AOI is not returned correctly.');
 % these combined should be the duration of the data
 assert(recording_length == time1 + time2, 'Time in aoi: time summed over multiple aois covering all screen seems to not provide the whole duration of the experiment.')
 
+time3 = gazeInAOITimeConditional(DATA, xcol, ycol, durcol, [0 0.49 0 1], [0,0,1,1,1,0,0]'); %2/7
+time4 = gazeInAOITimeConditional(DATA, xcol, ycol, durcol, [0 0.49 0 1], [0,0,0,0,1,0,0]'); %0
+assert(time3 == 1, 'Time that gaze is inside AOI CONDITIONAL is not returned correctly.');
+assert(time4 == 0, 'Time that gaze is inside AOI CONDITIONAL is not returned correctly.');
 %% Test 30: combineEyes
 % 2-> here bad
 % 5-> here good 
