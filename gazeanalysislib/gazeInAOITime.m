@@ -1,12 +1,11 @@
-function [timein] = gazeInAOITime(DATA, xcol, ycol, durationcol, aoicoord)
-    %Function [percentage] = gazeInAOITime(DATA, xcol, ycol, timecol, aoicoord)
+function [timein] = gazeInAOITime(DATA, xcol, ycol, durcol, aoi)
+    %Function [timein] = gazeInAOITime(DATA, xcol, ycol, durcol, aoi)
     %
     % Returns the time when gaze is inside the area aoi.
     % aoicoord = [xmin xmax ymin ymax] specified in the x and y pixel
     % coordinates that are beign used (likely ranging from 0..1).
+    % Wrapper for gazeInAOITimeConditional-function with all true vector.
 
-    % find the indices of elements inside the aoi
-    inside_bools = insideAOI(DATA{xcol}, DATA{ycol}, aoicoord);
-    
-    % retrieve these indices from durationcolumn and sum these
-    timein = sum(DATA{durationcol}(inside_bools));
+    conditionv = ones(rowCount(DATA), 1);
+    timein = gazeInAOITimeConditional(DATA, xcol, ycol, durcol, aoi, ...
+                                      conditionv);
