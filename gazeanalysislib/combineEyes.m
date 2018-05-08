@@ -26,7 +26,7 @@ function [newdatacol, newvalcol] = combineEyes(DATA, col1, col2, c1val, c2val, a
     % possible condition
     one_is_ok = and(validities_c1_ok, ~validities_c2_ok);
     two_is_ok = and(~validities_c1_ok, validities_c2_ok);
-    both_ok = and(validities_c1_ok, validities_c2_ok);    
+    both_ok = and(validities_c1_ok, validities_c2_ok);
 
     % format new vectors, value vector first full of bad value ->
     % improve on every occasion
@@ -34,7 +34,7 @@ function [newdatacol, newvalcol] = combineEyes(DATA, col1, col2, c1val, c2val, a
     newvalcol = zeros(rowcount, 1) + badvalidity;
 
     % put okay validities if either or both (or) validities are accepted
-    newvalcol(or(one_is_ok, two_is_ok)) = ok_validity;
+    newvalcol(or(or(one_is_ok, two_is_ok), both_ok)) = ok_validity;
     
     % first put new values to eyes so that second one might overwrite first
     % in the occasion when both are good
