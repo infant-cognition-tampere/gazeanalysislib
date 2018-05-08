@@ -38,7 +38,7 @@ classdef Visualization3d < handle
             obj.heye2 = surf(haxis, NANS,NANS,NANS, 'linestyle', 'none', 'facecolor', [0.99 0.99 0.99], 'userdata', [NaN NaN NaN]);
             % draw display object
             d = plot3([-screenwidth/2 screenwidth/2 screenwidth/2 0-screenwidth/2 0-screenwidth/2],...
-                      [0 0 screenheight screenheight 0], [0 0 0 0 0], "black");
+                      [0 0 screenheight screenheight 0], [0 0 0 0 0], 'black');
             % draw tracker with angle (the height is somewhat this 2cm)
             tcoords = obj.rotation_matrix*[0;-2];
 

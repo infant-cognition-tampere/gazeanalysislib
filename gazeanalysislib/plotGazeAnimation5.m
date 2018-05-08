@@ -38,21 +38,21 @@ function [hfig] = plotGazeAnimation5(DATA, columns, figtitle, delaytime, ...
     end
 
     % columns to use, divide by 10 to change from mm->cm
-    xg = getColumn(DATA, columns(1));
-    yg = getColumn(DATA, columns(2));
+    xg = getColumnGAL(DATA, columns(1));
+    yg = getColumnGAL(DATA, columns(2));
 
-    x1v = getColumn(DATA, columns(6))./10;
-    y1v = getColumn(DATA, columns(7))./10;
-    z1v = getColumn(DATA, columns(8))./10;
+    x1v = getColumnGAL(DATA, columns(6))./10;
+    y1v = getColumnGAL(DATA, columns(7))./10;
+    z1v = getColumnGAL(DATA, columns(8))./10;
 
-    x2v = getColumn(DATA, columns(9))./10;
-    y2v = getColumn(DATA, columns(10))./10;
-    z2v = getColumn(DATA, columns(11))./10;
+    x2v = getColumnGAL(DATA, columns(9))./10;
+    y2v = getColumnGAL(DATA, columns(10))./10;
+    z2v = getColumnGAL(DATA, columns(11))./10;
 
     % make a subplot fot tags
     if length(columns) >= 5
         tagcol = columns(5);
-        tags = getColumn(DATA, tagcol);
+        tags = getColumnGAL(DATA, tagcol);
         utags = unique(tags);
 
      %   tagplot = zeros(length(tags), 1);
@@ -68,7 +68,7 @@ function [hfig] = plotGazeAnimation5(DATA, columns, figtitle, delaytime, ...
     valr = DATA{columns(3)};
     valrp = (~ismember(valr, accepted_validities) * (-1000) ) -0.01;
     rowcount = rowCount(DATA);
-    starttime = getValue(DATA, 1, columns(4));
+    starttime = getValueGAL(DATA, 1, columns(4));
 
     % create figure
     scrsz = get(0,'ScreenSize');
@@ -97,7 +97,7 @@ function [hfig] = plotGazeAnimation5(DATA, columns, figtitle, delaytime, ...
 
     % construct timevector
     for i=1:rowcount
-        x(i) = getValue(DATA, i, columns(4)) - starttime;
+        x(i) = getValueGAL(DATA, i, columns(4)) - starttime;
     end
 
     limits = [-0.1 1.1];
@@ -143,8 +143,8 @@ function [hfig] = plotGazeAnimation5(DATA, columns, figtitle, delaytime, ...
         % draw new aois from this round to 3d-view
         p3d.clearAois()
         for a=1:length(aois)
-            aoi = getValue(DATA, i, aois{a});
-            p3d.addAoi(str2num(aoi));
+            aoi = getValueGAL(DATA, i, aois{a});
+            p3d.addAoi(aoi);
         end
 
         pause(delaytime);

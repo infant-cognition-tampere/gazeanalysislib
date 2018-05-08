@@ -21,7 +21,6 @@ for i = 1:length(all_files)
             filecounter = filecounter+1;
             files{filecounter} = [folder a b c];
         end
-        e
     end
 end
 
