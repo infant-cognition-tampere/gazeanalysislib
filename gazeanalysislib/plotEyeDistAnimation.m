@@ -54,12 +54,12 @@ function [hfig] = plotEyeDistAnimation(DATA, HEADERS, figtitle, delaytime, accep
     valrp = (~ismember(valr, accepted_validities) * (-1000) ) + limits(1) - 0.01*limits(1);
     vallp = (~ismember(vall, accepted_validities) * (-1000) ) + limits(1) - 0.04*limits(1);
 
-    mean_dist_l = mean(getColumn(DATA, ldc));
-    mean_dist_r = mean(getColumn(DATA, rdc));
+    mean_dist_l = mean(getColumnGAL(DATA, ldc));
+    mean_dist_r = mean(getColumnGAL(DATA, rdc));
     common_mean = mean([mean_dist_l mean_dist_r]);
 
     rowcount = rowCount(DATA);
-    starttime = getValue(DATA, 1, colNum(HEADERS, 'TETTime'));
+    starttime = getValueGAL(DATA, 1, colNum(HEADERS, 'TETTime'));
     axlimits = [0 1 0 1];
 
     % create figure
@@ -100,7 +100,7 @@ function [hfig] = plotEyeDistAnimation(DATA, HEADERS, figtitle, delaytime, accep
 
     % construct timevector
     for i=2:rowcount
-        x(i) = getValue(DATA, i, colNum(HEADERS, 'TETTime')) - starttime;
+        x(i) = getValueGAL(DATA, i, colNum(HEADERS, 'TETTime')) - starttime;
     end
 
     %x = 1:rowcount;

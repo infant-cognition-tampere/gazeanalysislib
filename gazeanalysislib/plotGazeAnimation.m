@@ -41,7 +41,7 @@ function [hfig] = plotGazeAnimation(DATA, columns, figtitle, delaytime, ...
     % make a subplot fot tags
     if length(columns) == 5
         tagcol = columns(5);
-        tags = getColumn(DATA, tagcol);
+        tags = getColumnGAL(DATA, tagcol);
         utags = unique(tags);
 
         tagplot = [];
@@ -60,7 +60,7 @@ function [hfig] = plotGazeAnimation(DATA, columns, figtitle, delaytime, ...
 
     rowcount = rowCount(DATA);
 
-    starttime = getValue(DATA, 1, columns(4));
+    starttime = getValueGAL(DATA, 1, columns(4));
 
     axlimits = [0 1 0 1];
 
@@ -101,7 +101,7 @@ function [hfig] = plotGazeAnimation(DATA, columns, figtitle, delaytime, ...
 
     % construct timevector
     for i=1:rowcount
-        x(i) = getValue(DATA, i, columns(4)) - starttime;
+        x(i) = getValueGAL(DATA, i, columns(4)) - starttime;
     end
 
     limits = [-0.1 1.1];

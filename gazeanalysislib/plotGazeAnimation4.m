@@ -37,25 +37,25 @@ function [hfig] = plotGazeAnimation4(DATA, columns, figtitle, delaytime, ...
     end
 
     % columns to use, divide by 10 to change from mm->cm
-    x1v = getColumn(DATA, columns(6))./10;
-    y1v = getColumn(DATA, columns(7))./10;
-    z1v = getColumn(DATA, columns(8))./10;
+    x1v = getColumnGAL(DATA, columns(6))./10;
+    y1v = getColumnGAL(DATA, columns(7))./10;
+    z1v = getColumnGAL(DATA, columns(8))./10;
 
-    x2v = getColumn(DATA, columns(9))./10;
-    y2v = getColumn(DATA, columns(10))./10;
-    z2v = getColumn(DATA, columns(11))./10;
+    x2v = getColumnGAL(DATA, columns(9))./10;
+    y2v = getColumnGAL(DATA, columns(10))./10;
+    z2v = getColumnGAL(DATA, columns(11))./10;
 
-    cx = getColumn(DATA, columns(1));
-    cy = getColumn(DATA, columns(2));
+    cx = getColumnGAL(DATA, columns(1));
+    cy = getColumnGAL(DATA, columns(2));
 
-    %c2x = getColumn(DATA, columns(12));
-    %c2y = getColumn(DATA, columns(13));
+    %c2x = getColumnGAL(DATA, columns(12));
+    %c2y = getColumnGAL(DATA, columns(13));
 
 
     % make a subplot fot tags
     if length(columns) >= 5
         tagcol = columns(5);
-        tags = getColumn(DATA, tagcol);
+        tags = getColumnGAL(DATA, tagcol);
         utags = unique(tags);
 
         tagplot = [];
@@ -69,7 +69,7 @@ function [hfig] = plotGazeAnimation4(DATA, columns, figtitle, delaytime, ...
     valri = ismember(valr, accepted_validities);
     valrp = (~ismember(valr, accepted_validities) * (-1000) ) -0.01;
     rowcount = rowCount(DATA);
-    starttime = getValue(DATA, 1, columns(4));
+    starttime = getValueGAL(DATA, 1, columns(4));
 
     % create figure
     scrsz = get(0,'ScreenSize');

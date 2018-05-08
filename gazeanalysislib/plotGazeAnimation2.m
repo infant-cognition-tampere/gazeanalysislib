@@ -49,7 +49,7 @@ function [hfig] = plotGazeAnimation2(DATA, columns, figtitle, ...
 
     rowcount = rowCount(DATA);
 
-    starttime = getValue(DATA, 1, columns(4));
+    starttime = getValueGAL(DATA, 1, columns(4));
 
     axlimits = [0 1 0 1];
 
@@ -93,7 +93,7 @@ function [hfig] = plotGazeAnimation2(DATA, columns, figtitle, ...
 
     % construct timevector
     for i=1:rowcount
-        x(i) = getValue(DATA, i, columns(4)) - starttime;
+        x(i) = getValueGAL(DATA, i, columns(4)) - starttime;
     end
 
     %x = 1:rowcount;
