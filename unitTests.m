@@ -231,6 +231,10 @@ cet = colNum(h, 'emptytestcolumn');
 h = clipDataWhenChangeInCol(d, cet);
 isequal(h{4}{cet}, {'a'; 'a'}, 'There seems to be a problem with one-length elements when detecting change in a column.');
 
+%% strcellv2numcellv
+numcellv = strcellv2numcellv({'[1 2 3 4]', '[0 0 0 -1]'});
+
+assert(isequal(numcellv, {[1 2 3 4], [0 0 0 -1]}), 'String-valued cellvector is not changed to numeric cellvector correctly');
 
 %% getrowscontainingvalue
 %% distanceTravelled
