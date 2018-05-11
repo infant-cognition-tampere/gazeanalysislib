@@ -24,6 +24,8 @@ tagcol = colNum(headers, 'tag');
 assert(insideAOI(0.1, 0.5, aoi) == 1, 'Problem with point inside aoi detection');
 assert(insideAOI(0.2, 0.39, aoi) == 0, 'Problem with point outside aoi detection');
 
+assert(isequal(insideAOI([0.5;2;0.9], [0.1;0.4;1], {[0 1 0 1], [0 1 0 1], [0 1 0 0.5]}), [1;0;0]), 'Problem with vectorized inside aoi detection');
+
 %% Test 2: Aoi-center
 [x,y] = aoiCenter(aoi);
 assert(x == 0.2, 'Problem with AOI-center calculation');

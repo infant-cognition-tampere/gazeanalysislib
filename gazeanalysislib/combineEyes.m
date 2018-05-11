@@ -4,9 +4,9 @@ function [newdatacol, newvalcol] = combineEyes(DATA, col1, col2, c1val, c2val, a
     % Combines two columns to one by using the validity of columns. If both
     % columns have validity among those specified in parameter
     % accepted_validities, the mean of both columns is used as the value in
-    % new column and the validity stamp is taken from column 1. If either of
-    % the eyes has bad validity for certain datapoint and the other eye is fine,
-    % the good eye is used and the validity from that eye. If both eyes are
+    % new column and the validity is 0. If either of the eyes has bad 
+    % validity for certain datapoint and the other eye is fine,
+    % the good eye is used and the validity is set to 1. If both eyes are
     % bad, -1 is used as eye value and validity value. colX, cXval-parameters 
     % are column numbers. accepted_validities is a cell array of validities
     % considered "good". newdatacol  and newvalcol are vectors formed by the
@@ -16,7 +16,8 @@ function [newdatacol, newvalcol] = combineEyes(DATA, col1, col2, c1val, c2val, a
 
     badcoordinate = -1;
     badvalidity = -1;
-    ok_validity = 1;
+    ok_validity_one_eye = 1;
+    ok_validity_both_eyes = 0;
 
     % check if values in column are okay or not -> return bool vector
     validities_c1_ok = ismember(DATA{c1val}, accepted_validities);
@@ -34,7 +35,8 @@ function [newdatacol, newvalcol] = combineEyes(DATA, col1, col2, c1val, c2val, a
     newvalcol = zeros(rowcount, 1) + badvalidity;
 
     % put okay validities if either or both (or) validities are accepted
-    newvalcol(or(or(one_is_ok, two_is_ok), both_ok)) = ok_validity;
+    newvalcol(or(one_is_ok, two_is_ok)) = ok_validity_one_eye;
+    newvalcol(both_ok) = ok_validity_both_eyes;
     
     % first put new values to eyes so that second one might overwrite first
     % in the occasion when both are good
