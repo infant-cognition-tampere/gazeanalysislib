@@ -226,41 +226,48 @@ combined_eyes = combineEyes(DATA, colNum(headers, 'x2gaze'), xcol, colNum(header
 isin = min(ismembertol(should_be', combined_eyes, 0.000005));
 assert(isin, 'Eye-combination is not working correctly.');
 
-%% getrowscontainingAvalue
+%% Test 31: getrowscontainingAvalue
 [d, h] = addNewColumn(DATA, headers, {'', '','a', '', 'a', 'a', '123'}', 'emptytestcolumn');
 cet = colNum(h, 'emptytestcolumn');
 % additional test to clipDataWhenChangeInCol
 h = clipDataWhenChangeInCol(d, cet);
 isequal(h{4}{cet}, {'a'; 'a'}, 'There seems to be a problem with one-length elements when detecting change in a column.');
 
-%% strcellv2numcellv
+%% Test 32: strcellv2numcellv
 numcellv = strcellv2numcellv({'[1 2 3 4]'; '[0 0 0 -1]'});
 assert(isequal(numcellv, {[1 2 3 4]; [0 0 0 -1]}), 'String-valued cellvector is not changed to numeric cellvector correctly');
 
-%% getrowscontainingvalue
+%% Test 33: getrowscontainingvalue
 rows = {{''; 'a'; ''; 'a'; 'test'}, [1;2;3;4;5]};
 data_with_something = getRowsContainingAValue(rows, 1);
 assert(isequal(getColumnGAL(data_with_something, 2), [2;4;5]), 'getrowscontainingavalue error');
 
-%% removerowscontainingvalue
+%% Test 34: removerowscontainingvalue
 data_with_values_removed = removeRowsContainingValue(rows, 1, 'a');
 assert(isequal(getColumnGAL(data_with_values_removed, 2), [1;3;5]), 'removerows error');
 
-%% testdataconsistency
+%% Test 35: testdataconsistency
 rows_nonconsistent = {{'a'; 'b'}, [1]};
 assert(testDataConsistency(rows_nonconsistent) == 0, 'nonconsistent data detected incorrectly');
 assert(testDataConsistency(rows) == 1, 'consistent data detected incorrectly');
 
-%% replacestringsincolumn
+%% Test 36: replacestringsincolumn
 rows_replaced = replaceStringsInColumn(rows, 1, 'a', 'test');
-assert(isequal(getColumnGAL(rows_replaced, 1), {''; 'test'; ''; 'test'; 'test'}))
+assert(isequal(getColumnGAL(rows_replaced, 1), {''; 'test'; ''; 'test'; 'test'}));
 
-%% gazeinaoirow
+%% Test 37: gazeinaoirow
+first = gazeInAOIRow(DATA, xcol, ycol, [0.05 0.15 0.05 0.15], 'first');
+last = gazeInAOIRow(DATA, xcol, ycol, [0.35 0.45 0.05 0.15], 'last');
+assert(first == 2, 'gaze enter aoi "first" not found correctly');
+assert(last == 3, 'gaze enter aoi "last" not found correctly');
 
 %% distanceTravelled
+rows3 = {[1 2 2 1], [1 1 2 1]};
+d = 20 + 10 + sqrt(10^2+20^2);
+dist = distanceTravelled(rows3, 1, 2, 20, 10);
+assert(dist == d, 'distanceTravelled error');
 
 %% gazeshiftparameters
 %% interpolate
 %% longestnonvalid
 %% nudgedestimate
-%% testdataconsistency
