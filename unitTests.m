@@ -235,16 +235,32 @@ isequal(h{4}{cet}, {'a'; 'a'}, 'There seems to be a problem with one-length elem
 
 %% strcellv2numcellv
 numcellv = strcellv2numcellv({'[1 2 3 4]'; '[0 0 0 -1]'});
-
 assert(isequal(numcellv, {[1 2 3 4]; [0 0 0 -1]}), 'String-valued cellvector is not changed to numeric cellvector correctly');
 
 %% getrowscontainingvalue
-%% distanceTravelled
+rows = {{''; 'a'; ''; 'a'; 'test'}, [1;2;3;4;5]};
+data_with_something = getRowsContainingAValue(rows, 1);
+assert(isequal(getColumnGAL(data_with_something, 2), [2;4;5]), 'getrowscontainingavalue error');
+
+%% removerowscontainingvalue
+data_with_values_removed = removeRowsContainingValue(rows, 1, 'a');
+assert(isequal(getColumnGAL(data_with_values_removed, 2), [1;3;5]), 'removerows error');
+
+%% testdataconsistency
+rows_nonconsistent = {{'a'; 'b'}, [1]};
+assert(testDataConsistency(rows_nonconsistent) == 0, 'nonconsistent data detected incorrectly');
+assert(testDataConsistency(rows) == 1, 'consistent data detected incorrectly');
+
+%% replacestringsincolumn
+rows_replaced = replaceStringsInColumn(rows, 1, 'a', 'test');
+assert(isequal(getColumnGAL(rows_replaced, 1), {''; 'test'; ''; 'test'; 'test'}))
+
 %% gazeinaoirow
+
+%% distanceTravelled
+
 %% gazeshiftparameters
 %% interpolate
 %% longestnonvalid
 %% nudgedestimate
-%% removerowscontainingvalue
-%% replacestringsincolumn
 %% testdataconsistency
