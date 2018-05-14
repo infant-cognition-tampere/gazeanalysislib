@@ -1,7 +1,7 @@
 function [longest_streak] = longestNonValidSection(DATA, valcol, ...
-                                                   timecol, ...
+                                                   durcol, ...
                                                    accepted_validities)
-    %Function [longest_streak] = longestNonValidSection(DATA, valcol, timecol, accepted_validities)
+    %Function [longest_streak] = longestNonValidSection(DATA, valcol, durcol, accepted_validities)
     %
     % Calculates the longest time when value in validity-column is not part of 
     % accepted_validities. The result is calculated according to the 
@@ -10,27 +10,22 @@ function [longest_streak] = longestNonValidSection(DATA, valcol, ...
     % acceptable.
 
     validityvector = DATA{valcol};
-    timevector = DATA{timecol};
-
-    if length(timevector) < 2
-       return;
-    end
+    durvector = DATA{durcol};
 
     isvalidv = ismember(validityvector, accepted_validities);
-    current_start = timevector(1);
+    current_streak = 0;
     longest_streak = 0;
-    for i=2:length(validityvector)
+    for i=1:length(validityvector)
 
         % if current streaks continue?
         if ~isvalidv(i) % invalid data
-            current = timevector(i) - current_start;
+            current_streak = current_streak + durvector(i);
         else
-            current_start = timevector(i);
-            current = 0;
+            current_streak = 0;
         end
 
         % if current streak surpasses longest one?
-        if current > longest_streak
-            longest_streak = current;
+        if current_streak > longest_streak
+            longest_streak = current_streak;
         end    
     end

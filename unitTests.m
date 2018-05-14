@@ -261,13 +261,21 @@ last = gazeInAOIRow(DATA, xcol, ycol, [0.35 0.45 0.05 0.15], 'last');
 assert(first == 2, 'gaze enter aoi "first" not found correctly');
 assert(last == 3, 'gaze enter aoi "last" not found correctly');
 
-%% distanceTravelled
+%% Test 38: distanceTravelled
+% make a simple triangle that the gaze travels 
 rows3 = {[1 2 2 1], [1 1 2 1]};
 d = 20 + 10 + sqrt(10^2+20^2);
 dist = distanceTravelled(rows3, 1, 2, 20, 10);
 assert(dist == d, 'distanceTravelled error');
 
-%% gazeshiftparameters
-%% interpolate
 %% longestnonvalid
+% should detect the 1 + 1.1 second streak in the middle
+rows4 = {[1 2 1 1.1 1 4 1], [1 0 1 0 0 1 0]};
+longest_nvs = longestNonValidSection(rows4, 2, 1, [1]);
+assert(longest_nvs == 2.1, 'longest nonvalidsection not working correctly')
+
+%% interpolate
+
+%% gazeshiftparameters
+
 %% nudgedestimate
