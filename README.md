@@ -52,7 +52,7 @@ for j = 1:length(files)
     % Load one datafile
     % The parameters given here depends on the structure of your file. How
     % many columns it has and what kind of data is in the columns.
-    [DATA, HEADERS] = loadGazedataFile(files{j}, 33, [repmat('%f ', 1, 19) '%d32 %d32 %f %f %f %f %s %s %s %s %s %d32 %f %s']);
+    [DATA, HEADERS] = loadCsv(files{j}, [repmat('%f ', 1, 19) '%d32 %d32 %f %f %f %f %s %s %s %s %s %d32 %f %s %s'], '\t');
     
     % Find column numbers for this file so that we can pass these column
     % files as parameters to functions later.
@@ -66,9 +66,10 @@ for j = 1:length(files)
     xgazerc = colNum(HEADERS, 'RightEyeNx');
     ygazerc = colNum(HEADERS, 'RightEyeNy');
     
-    % Replace tags (HEADERS-variable is unchanged)
+    % Replace tags e.g. if we want to group the (HEADERS-variable is unchanged)
     DATA = replaceStringsInColumn(DATA, idc, 'gcwait', 'target');
     DATA = replaceStringsInColumn(DATA, idc, 'animation', 'target');
+    DATA = replaceStringsInColumn(DATA, idc, 'lateral', 'target');
     
     % Combine x and y -coordinates on both eyes to one 'combined', see
     % function help for details
@@ -133,8 +134,9 @@ for j = 1:length(files)
         filename{rc} = [b c];
         trialnum{rc} = getValueGAL(dataclip, 1, tnc);
         
-        % Simple optional visualization, comment if not necessary
-        plotGaze2d(getColumnGAL(dataclip, combx), getColumnGAL(dataclip, comby)); 
+        % Simple optional visualization, comment following line if not
+        % necessary, plot gazepoints and name the graph
+        plotGaze2d(getColumnGAL(dataclip, combx), getColumnGAL(dataclip, comby), [filename{rc} ' trial: ' trialnum{rc}]); 
         
         rc = rc + 1;
     end
@@ -142,7 +144,7 @@ end
 
 % Generate trial-by-trial output-file
 csvheaders = {'filename', 'trial_number', 'clip_duration', 'first_time_in_aoi', 'validity', 'inside_aoi', 'longest_nonvalid_section'};
-saveCsvFile([folder 'results_tbt.csv'], csvheaders, filename, trialnum, clip_duration, first_time_in_aoi, validityc, inside_aoi, longest_nvc);
+saveCsvFile([folder 'results_tbt.csv'], csvheaders, filename, trialnum, clip_duration, first_time_in_aoi, validityc, inside_aoi, longest_nvc)
 ```
 
 ### Development

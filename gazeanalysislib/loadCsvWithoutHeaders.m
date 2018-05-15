@@ -8,7 +8,7 @@ function [DATA] = loadCsvWithoutHeaders(file, dataformat, delimiter)
     % textscan function (e.g. '%s %f %f %s' for data where first column
     % contains strings, second and third float-numbers and fourth again
     % strings). Column headers are assumed to be in the same file and
-    % similar numbers as columns in the actual data.
+    % similar count as columns in the actual data.
 
     disp(['Reading file ' file]);
 
@@ -25,6 +25,6 @@ function [DATA] = loadCsvWithoutHeaders(file, dataformat, delimiter)
         str = strrep(str, '-1.#QNAN', '-1');
     end
 
-    %Read data columns
+    % read data columns
     DATA = textscan(str, dataformat, 'HeaderLines', 0, 'Delimiter', ...
                     delimiter);
