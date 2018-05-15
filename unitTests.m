@@ -150,12 +150,8 @@ v_correct = [1 1 2 3 3 2 2 3];
 v_filtered = medianFilter(v, 3);
 assert(isequal(v_correct, v_filtered), 'Median filter is not producing correct values with test vector.');
 
-%% medianfilterdata
+%% Test 21: medianfilterdata
 
-%% Test 21: Longest nonvalid section
-%longestNonValidSection(DATA, vcol, durcol, accepted_validities)
-% this function might be up for a change (timecolum -> durationcolumn), so
-% test is not yet implemented
 
 %% Test 22: data duration
 assert(getDuration(DATA, timecol) == times(end)-times(1), 'Data duration is not calculated correctly');
@@ -268,14 +264,12 @@ d = 20 + 10 + sqrt(10^2+20^2);
 dist = distanceTravelled(rows3, 1, 2, 20, 10);
 assert(dist == d, 'distanceTravelled error');
 
-%% longestnonvalid
+%% Test 39: longestnonvalidsection
 % should detect the 1 + 1.1 second streak in the middle
 rows4 = {[1 2 1 1.1 1 4 1], [1 0 1 0 0 1 0]};
 longest_nvs = longestNonValidSection(rows4, 2, 1, [1]);
-assert(longest_nvs == 2.1, 'longest nonvalidsection not working correctly')
+assert(longest_nvs == 2.1, 'longest nonvalidsection not working correctly');
 
-%% interpolate
-
+%% Test 40: interpolation
+%% Test 41: nudgedestimate
 %% gazeshiftparameters
-
-%% nudgedestimate

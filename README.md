@@ -150,4 +150,10 @@ Program code is documented with helpstrings on functions. The overwiew can be pr
 ```
 printFunctionOverview
 ```
+Unit tests can be run with the following command. Unit tests are run to determine everything is working as expected.
+```
+unitTests
+```
+
+
 Some features may not be completed and may miss functionality or disfunction.

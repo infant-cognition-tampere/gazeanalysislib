@@ -3,9 +3,9 @@ function [longest_streak] = longestNonValidSection(DATA, valcol, ...
                                                    accepted_validities)
     %Function [longest_streak] = longestNonValidSection(DATA, valcol, durcol, accepted_validities)
     %
-    % Calculates the longest time when value in validity-column is not part of 
-    % accepted_validities. The result is calculated according to the 
-    % time in timecol. valcol, timecol are column numbers while
+    % Calculates the longest time when value in validity-column is not
+    % part of accepted_validities. The result is calculated according to
+    % the time in timecol. valcol, timecol are column numbers while
     % accepted_validities is a cell-array of validity-markings considered
     % acceptable.
 
