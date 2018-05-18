@@ -52,7 +52,7 @@ for j = 1:length(files)
     % Load one datafile
     % The parameters given here depends on the structure of your file. How
     % many columns it has and what kind of data is in the columns.
-    [DATA, HEADERS] = loadCsv(files{j}, [repmat('%f ', 1, 19) '%d32 %d32 %f %f %f %f %s %s %s %s %s %d32 %f %s %s'], '\t');
+    [DATA, HEADERS] = loadCsvAutomatic(files{j});
     
     % Find column numbers for this file so that we can pass these column
     % files as parameters to functions later.
