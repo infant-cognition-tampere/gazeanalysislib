@@ -1,19 +1,19 @@
-function [files] = findGazeFilesInFolder(folder, ending)
-    %Function [files] = findGazeFilesInFolder(folder)
+function [files] = findGazeFilesInFolder(folder, regularexpression)
+    %Function [files] = findGazeFilesInFolder(folder, regularexpression)
     %
-    % Returns the full pathnames of gazefiles in the folder. The gazefiles 
-    % ending is specified as a parameter. (e.g. '.gazedata' or '.csv')
+    % Returns the full pathnames of files in the folder. The second 
+    % parameter is regular expression that is searched in the filename
+    % (e.g. '.gazedata' or '_recording1.csv')
 
     all_files = dir(folder);
-    filecounter = 0;
     files = {};
     for i = 1:length(all_files)
-        [a, b, c] = fileparts(all_files(i).name);
-        if strcmp(c, ending)
-            filecounter = filecounter+1;
-            files{filecounter} = [folder a b c];
+        fname = all_files(i).name;
+        if ~isempty(regexp(fname, regularexpression, 'ONCE'))
+            files{end+1} = strcat(folder, filesep, fname);
         end
     end
-    if filecounter == 0
-        disp('No gazefiles in the folder.');
+    
+    if isempty(files)
+        disp('No files matching regexp in the folder.');
     end
