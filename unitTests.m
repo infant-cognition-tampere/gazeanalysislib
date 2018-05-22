@@ -271,5 +271,26 @@ longest_nvs = longestNonValidSection(rows4, 2, 1, [1]);
 assert(longest_nvs == 2.1, 'longest nonvalidsection not working correctly');
 
 %% Test 40: interpolation
+% last bad
+d = {[1;1;0], [0;0;-1]};
+d1 = interpolateUsingLastGoodValue(d, 1, 2, [0]);
+assert(isequal(getColumnGAL(d1, 1), [1;1;1]))
+
+% first bad, last bad
+d = {[0;1;0], [-1;0;-1]};
+d1 = interpolateUsingLastGoodValue(d, 1, 2, [0]);
+assert(isequal(getColumnGAL(d1, 1), [1;1;1]))
+
+% all bad -> not change
+d = {[0;1;0], [-1;-1;-1]};
+d1 = interpolateUsingLastGoodValue(d, 1, 2, [0]);
+assert(isequal(getColumnGAL(d1, 1), [0;1;0]))
+
+% bad in middle
+d = {[0;1;500;0], [0;-1;-1;0]};
+d1 = interpolateUsingLastGoodValue(d, 1, 2, [0]);
+assert(isequal(getColumnGAL(d1, 1), [0;0;0;0]))
+
+
 %% Test 41: nudgedestimate
 %% gazeshiftparameters

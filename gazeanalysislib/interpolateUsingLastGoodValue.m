@@ -1,15 +1,16 @@
 function [DATA] = interpolateUsingLastGoodValue(DATA, column, validitycolumn, accepted_validities)
     %Function [DATA] = interpolateUsingLastGoodValue(DATA, column, validitycolumn, accepted_validities)
     %
-    % Interpolates values in column "column" in DATA-matrix by replacing the bad 
-    % value with last good value before bad values (if there is at least one good 
-    % value, otherwise, do nothing). Validitycolumn contains the validity markings
-    % for each datapoint and good validities are defined by the accepted 
-    % validities-parameter. If the beginning of a trail is "bad", use the first
-    % appearing good value to interpolate that.
+    % Interpolates values in column "column" in DATA-matrix by replacing
+    % the bad value with last good value before bad values (if there is at
+    % least one good value, otherwise, do nothing). Validitycolumn
+    % contains the validity markings for each datapoint and good
+    % validities are defined by the accepted validities-parameter. If the
+    % beginning of a trail is "bad", use the first appearing good value to
+    % interpolate that.
 
     rowcount = rowCount(DATA);
-    validityvector = DATA{validitycolumn};
+    validityvector = getColumnGAL(DATA, validitycolumn);
 
     % if the first value of the vector is bad, find the first non-bad.
     % take the first non-bad number and set that as first good
@@ -23,9 +24,8 @@ function [DATA] = interpolateUsingLastGoodValue(DATA, column, validitycolumn, ac
         return;
     end
 
-    datavector = DATA{column};
+    datavector = getColumnGAL(DATA, column);
     last_non_bad = datavector(first_good);
-    % pidetaanko yli yhden interpolaatio/smoothingvaiheessa?
 
     for i=1:rowcount
         if ~good_samples(i)
