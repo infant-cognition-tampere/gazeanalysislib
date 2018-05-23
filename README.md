@@ -3,10 +3,20 @@ A Matlab-library for gaze analysis.
 
 ### What is gazeanalysislib?
 
-gazeanalysislib is an open-source project created by psychology researchers and engineers to facilitate common gaze-analysis tasks. gazeanalysislib contains functions to load gazefiles into Matlab, to cut data, extract features and visualize data  and variables in many ways. The library is designed to be used in collaboration within a script-file that processes large amounts of datafiles and is not dependend of the tracker-type or model. Functions are kept quite low-level, which gives the possibility to construct complex analyses and share the analyses easily.
+gazeanalysislib is an open-source project created by psychology researchers and
+engineers to facilitate common gaze-analysis tasks. gazeanalysislib contains
+functions to load gazefiles into Matlab, to cut data, extract features and
+visualize data  and variables in many ways. The library is very flexible and
+allows different kind of analyses to be built. It's designed to be used
+in collaboration within a script-file that can process large amounts of
+datafiles and is not dependend of the tracker-type or model. Most functions are
+kept relatively low-level, which gives the possibility to construct complex
+analyses, understand and share the analyses easily.
 
 ### Platforms
-Matlab on any system. Dependences to different Matlab-toolboxes may vary, but kept to minimum.
+Matlab on any system. Octave is a free alternative, but currently we havent
+tested it. Most functions work without any additional Matlab toolboxes, but
+there might be exceptions.
 
 ### License
 gazeanalysislib uses MIT licence.
@@ -20,13 +30,19 @@ Home page [ICL Tampere](http://uta.fi/med/icl)
 ## Usage
 ### Terminology
 * gazefile = a file that contains datapoints from a recording 
-* HEADERS = a commonly appearing datastruct. A 1xn cell-vector that contains the "column"-identifiers or headers.
-* DATA = a commonly appearing datastruct. A 1xn cell-vector that contains vectors (cell or numerical) of datapoints. The vectors inside the cell represent the "data-columns" in a csv-style data. Each vector is an mx1 numerical or cell vector.
+* HEADERS = a commonly appearing datastruct. A 1xn cell-vector that contains
+  the "column"-identifiers or headers.
+* DATA = a commonly appearing datastruct. A 1xn cell-vector that contains
+  vectors (cell or numerical) of datapoints. The vectors inside the cell
+  represent the "data-columns" in a csv-style data. Each vector is an mx1
+  numerical or cell vector.
 * AOI = Area Of Interest, a square-shape area that is defined by coordinates
 x1,y1,x2,y2.
 
 ### Basics
-The library can be downloaded from here and the extracted folder added to Matlab-path. After that the library functions can be called and/or a script file containing function calls can be made.
+The library can be downloaded from here and the extracted folder added to
+Matlab-path. After that the library functions can be called and/or a script
+file containing function calls can be made.
 
 #### Example script
 A short example of an analysis constructed with gazeanalysislib.
@@ -73,15 +89,18 @@ for j = 1:length(files)
     
     % Combine x and y -coordinates on both eyes to one 'combined', see
     % function help for details
-    [combinedx, ~] = combineEyes(DATA, xgazerc, xgazelc, valrc, vallc, accepted_validities);
-    [combinedy, newcombined] = combineEyes(DATA, ygazerc, ygazelc, valrc, vallc, accepted_validities);
+    [combinedx, ~] = combineEyes(DATA, xgazerc, xgazelc, valrc, vallc, ...
+                                 accepted_validities);
+    [combinedy, newcombined] = combineEyes(DATA, ygazerc, ygazelc, valrc, ...
+                                           vallc, accepted_validities);
     
     % Add these new columns to data-structure, HEADERS-variable changes too
     [DATA, HEADERS] = addNewColumn(DATA, HEADERS, combinedx, 'CombinedX');
     [DATA, HEADERS] = addNewColumn(DATA, HEADERS, combinedy, 'CombinedY');
-    [DATA, HEADERS] = addNewColumn(DATA, HEADERS, newcombined, 'CombinedValidity');
+    [DATA, HEADERS] = addNewColumn(DATA, HEADERS, newcombined, ...
+                                   'CombinedValidity');
     
-    % Find new columns numbers
+    % Find new columns numbers for the columns that were added
     combx = colNum(HEADERS, 'CombinedX');
     comby = colNum(HEADERS, 'CombinedY');
     combval = colNum(HEADERS, 'CombinedValidity');
@@ -99,35 +118,43 @@ for j = 1:length(files)
         % Select rows containing the desired value in a column
         dataclip = getRowsContainingValue(dataclip, idc, {'target'});
         
-        % Interpolate x and y, and apply median filter for x and y, as specified in parameters
-        dataclip = interpolateUsingLastGoodValue(dataclip, combx, combval, accepted_validities);
-        dataclip = interpolateUsingLastGoodValue(dataclip, comby, combval, accepted_validities);
+        % Interpolate x and y, and apply median filter for x and y, as
+        % specified in parameters
+        dataclip = interpolateUsingLastGoodValue(dataclip, combx, combval, ...
+                                                 accepted_validities);
+        dataclip = interpolateUsingLastGoodValue(dataclip, comby, combval, ...
+                                                 accepted_validities);
         dataclip = medianFilterData(dataclip, medianfilterlen, comby);
         dataclip = medianFilterData(dataclip, medianfilterlen, combx);
         
-        % Cut the data to "start" after when target appears to the screen
-        % and fit the analysis window to the requirements (i.e., min and max SRTs)
+        % Pick a subset of data starting when target appears to the screen
         data_target = getRowsContainingValue(dataclip, idc, 'target');
         
         % Get target duration data
         clip_duration(rc) = getDuration(data_target, timec);
         
         % Check if the point of gaze entered the active target AOI, and
-        first_time_in_aoi_row = gazeInAOIRow(dataclip, combx, comby, my_aoi, 'first');
+        first_time_in_aoi_row = gazeInAOIRow(dataclip, combx, comby, ...
+                                             my_aoi, 'first');
 
         if first_time_in_aoi_row ~= -1
             % Gaze entered target AOI within the time window
             % Determnine the latency of this entry
-            first_time_in_aoi(rc) = getValueGAL(dataclip, first_time_in_aoi_row, timec) - getValueGAL(dataclip, 1, timec);
+            first_time_in_aoi(rc) = getValueGAL(dataclip, ...
+                                                first_time_in_aoi_row, timec)...
+                                    - getValueGAL(dataclip, 1, timec);
         else
             % If gaze did not enter the target AOI
             first_time_in_aoi(rc) = -1;
         end
         
         % Calculate some metrics
-        longest_nvc(rc) = longestNonValidSection(dataclip, combval, timec, accepted_validities);
-        validityc(rc) = validGazePercentage(dataclip, combval, accepted_validities);
-        inside_aoi(rc) = gazeInAOIPercentage(dataclip, combx, comby, timec, my_aoi);
+        longest_nvc(rc) = longestNonValidSection(dataclip, combval, timec, ...
+                                                 accepted_validities);
+        validityc(rc) = validGazePercentage(dataclip, combval, ...
+                                            accepted_validities);
+        inside_aoi(rc) = gazeInAOIPercentage(dataclip, combx, comby, ...
+                                             timec, my_aoi);
         
         % Gather information to the csv-file(s)
         [a, b, c] = fileparts(files{j});
@@ -136,26 +163,35 @@ for j = 1:length(files)
         
         % Simple optional visualization, comment following line if not
         % necessary, plot gazepoints and name the graph
-        plotGaze2d(getColumnGAL(dataclip, combx), getColumnGAL(dataclip, comby), [filename{rc} ' trial: ' trialnum{rc}]); 
+        plotGaze2d(getColumnGAL(dataclip, combx), ...
+                   getColumnGAL(dataclip, comby), ...
+                   [filename{rc} ' trial: ' trialnum{rc}]); 
         
         rc = rc + 1;
     end
 end
 
 % Generate trial-by-trial output-file
-csvheaders = {'filename', 'trial_number', 'clip_duration', 'first_time_in_aoi', 'validity', 'inside_aoi', 'longest_nonvalid_section'};
-saveCsvFile([folder 'results_tbt.csv'], csvheaders, filename, trialnum, clip_duration, first_time_in_aoi, validityc, inside_aoi, longest_nvc)
+csvheaders = {'filename', 'trial_number', 'clip_duration', ...
+              'first_time_in_aoi', 'validity', 'inside_aoi', ...
+              'longest_nonvalid_section'};
+saveCsvFile([folder 'results_tbt.csv'], csvheaders, filename, trialnum, ...
+            clip_duration, first_time_in_aoi, validityc, inside_aoi, ...
+            longest_nvc)
 ```
 
 ### Development
-Program code is documented with helpstrings on functions. The overwiew can be printed in Matlab by typing:
+Program code is documented with helpstrings on functions. The overwiew can be
+printed in Matlab by typing:
 ```
 printFunctionOverview
 ```
-Unit tests can be run with the following command. Unit tests are run to determine everything is working as expected.
+Unit tests can be run with the following command. Unit tests are run to find
+possible errors or dysfunctions in the code.
 ```
 unitTests
 ```
-
+See CONTRIBUTING.md for instructions and guidelines on how you can participate
+on developing gazeanalysislib.
 
 Some features may not be completed and may miss functionality or disfunction.
