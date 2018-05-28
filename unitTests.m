@@ -291,6 +291,21 @@ d = {[0;1;500;0], [0;-1;-1;0]};
 d1 = interpolateUsingLastGoodValue(d, 1, 2, [0]);
 assert(isequal(getColumnGAL(d1, 1), [0;0;0;0]))
 
+%% Test 41: function name collision
+galibpath = mfilename('fullpath');
+[d, ~, ~] = fileparts(galibpath);
+funs = dir(strcat(d, filesep, 'gazeanalysislib'));
 
-%% Test 41: nudgedestimate
+for i=1:length(funs)
+    % find m-files
+    ending_found = regexp(funs(i).name, '\.m');
+    if ~isempty(ending_found)
+        % check the occurrence of filename in $PATH
+        assert(length(which(funs(i).name, '-all')) == 1, strcat('Function: ', funs(i).name, ' name is possibly colliding with another functions name.'))
+        
+    end
+end
+
+%% Test 42: nudgedestimate
 %% gazeshiftparameters
+
