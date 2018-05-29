@@ -5,27 +5,21 @@ A Matlab-library for gaze analysis.
 
 gazeanalysislib is an open-source project created by psychology researchers and
 engineers to facilitate common gaze-analysis tasks. gazeanalysislib contains
-functions to load gazefiles into Matlab, to cut data, extract features and
-visualize data  and variables in many ways. The library is very flexible and
-allows different kind of analyses to be built. It's designed to be used
-in collaboration within a script-file that can process large amounts of
-datafiles and is not dependend of the tracker-type or model. Most functions are
-kept relatively low-level, which gives the possibility to construct complex
-analyses, understand and share the analyses easily.
+functions to load gazefiles into Matlab, to cut data, to extract various features (for example, first time in AOI, last time in AOI, time at AOI etc), and to
+visualize data. The functions are not dependent on the tracker type or model. Most functions are relatively low-level, easy to understand and modify, and adaptable for different analysis requirements. The functions can be flexibly chained to build complex analysis pipelines for processing large numbers of eye tracking datafiles.
 
 ### Platforms
 Matlab on any system. Octave is a free alternative, but currently we havent
 tested it. Most functions work without any additional Matlab toolboxes, but
-there might be exceptions.
+there may be exceptions.
 
 ### License
 gazeanalysislib uses MIT licence.
 
 ### Reference
-The project was started by researchers from Infant Cognition Lab, University of
-Tampere, Finland. Please cite us if you publish using drop.
+The project was started by researchers from Infant Cognition Lab, University of Tampere, Finland (http://uta.fi/med/icl). Please cite the following article if you publish using gazeanalysislib:
 
-Home page [ICL Tampere](http://uta.fi/med/icl)
+Leppänen, J.M., Forssman, L., Kaatiala, J., Yrttiaho, S.,  &  Wass, S.V. (2014). Widely applicable MATLAB routines for automated analysis of saccadic reaction times. Behavior Research Methods, 47, 538-548
 
 ## Usage
 ### Terminology
