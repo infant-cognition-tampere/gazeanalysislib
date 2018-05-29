@@ -29,7 +29,7 @@ Home page [ICL Tampere](http://uta.fi/med/icl)
 
 ## Usage
 ### Terminology
-* gazefile = a file that contains datapoints from a recording 
+* gazefile = a file that contains datapoints from a recording
 * HEADERS = a commonly appearing datastruct. A 1xn cell-vector that contains
   the "column"-identifiers or headers.
 * DATA = a commonly appearing datastruct. A 1xn cell-vector that contains
@@ -64,12 +64,12 @@ files = findGazeFilesInFolder(folder, ending);
 rc = 1;
 
 for j = 1:length(files)
-    
+
     % Load one datafile
     % The parameters given here depends on the structure of your file. How
     % many columns it has and what kind of data is in the columns.
     [DATA, HEADERS] = loadCsvAutomatic(files{j});
-    
+
     % Find column numbers for this file so that we can pass these column
     % files as parameters to functions later.
     tnc = colNum(HEADERS, 'trialnumber');
@@ -81,43 +81,43 @@ for j = 1:length(files)
     ygazelc = colNum(HEADERS, 'LeftEyeNy');
     xgazerc = colNum(HEADERS, 'RightEyeNx');
     ygazerc = colNum(HEADERS, 'RightEyeNy');
-    
+
     % Replace tags e.g. if we want to group the (HEADERS-variable is unchanged)
     DATA = replaceStringsInColumn(DATA, idc, 'gcwait', 'target');
     DATA = replaceStringsInColumn(DATA, idc, 'animation', 'target');
     DATA = replaceStringsInColumn(DATA, idc, 'lateral', 'target');
-    
+
     % Combine x and y -coordinates on both eyes to one 'combined', see
     % function help for details
     [combinedx, ~] = combineEyes(DATA, xgazerc, xgazelc, valrc, vallc, ...
                                  accepted_validities);
     [combinedy, newcombined] = combineEyes(DATA, ygazerc, ygazelc, valrc, ...
                                            vallc, accepted_validities);
-    
+
     % Add these new columns to data-structure, HEADERS-variable changes too
     [DATA, HEADERS] = addNewColumn(DATA, HEADERS, combinedx, 'CombinedX');
     [DATA, HEADERS] = addNewColumn(DATA, HEADERS, combinedy, 'CombinedY');
     [DATA, HEADERS] = addNewColumn(DATA, HEADERS, newcombined, ...
                                    'CombinedValidity');
-    
+
     % Find new columns numbers for the columns that were added
     combx = colNum(HEADERS, 'CombinedX');
     comby = colNum(HEADERS, 'CombinedY');
     combval = colNum(HEADERS, 'CombinedValidity');
-    
-    % Remove data rows where there is nothin in 
+
+    % Remove data rows where there is nothin in
     DATA = getRowsContainingAValue(DATA, tnc);
-    
+
     % Clip data to separate clips according to change in column "trialnumber"
     dataclips = clipDataWhenChangeInCol(DATA, tnc);
-    
+
     % For each clip, do
     for i = 1:length(dataclips)
         dataclip = dataclips{i};
-        
+
         % Select rows containing the desired value in a column
         dataclip = getRowsContainingValue(dataclip, idc, {'target'});
-        
+
         % Interpolate x and y, and apply median filter for x and y, as
         % specified in parameters
         dataclip = interpolateUsingLastGoodValue(dataclip, combx, combval, ...
@@ -126,13 +126,13 @@ for j = 1:length(files)
                                                  accepted_validities);
         dataclip = medianFilterData(dataclip, medianfilterlen, comby);
         dataclip = medianFilterData(dataclip, medianfilterlen, combx);
-        
+
         % Pick a subset of data starting when target appears to the screen
         data_target = getRowsContainingValue(dataclip, idc, 'target');
-        
+
         % Get target duration data
         clip_duration(rc) = getDuration(data_target, timec);
-        
+
         % Check if the point of gaze entered the active target AOI, and
         first_time_in_aoi_row = gazeInAOIRow(dataclip, combx, comby, ...
                                              my_aoi, 'first');
@@ -147,7 +147,7 @@ for j = 1:length(files)
             % If gaze did not enter the target AOI
             first_time_in_aoi(rc) = -1;
         end
-        
+
         % Calculate some metrics
         longest_nvc(rc) = longestNonValidSection(dataclip, combval, timec, ...
                                                  accepted_validities);
@@ -155,18 +155,18 @@ for j = 1:length(files)
                                             accepted_validities);
         inside_aoi(rc) = gazeInAOIPercentage(dataclip, combx, comby, ...
                                              timec, my_aoi);
-        
+
         % Gather information to the csv-file(s)
         [a, b, c] = fileparts(files{j});
         filename{rc} = [b c];
         trialnum{rc} = getValueGAL(dataclip, 1, tnc);
-        
+
         % Simple optional visualization, comment following line if not
         % necessary, plot gazepoints and name the graph
         plotGaze2d(getColumnGAL(dataclip, combx), ...
                    getColumnGAL(dataclip, comby), ...
-                   [filename{rc} ' trial: ' trialnum{rc}]); 
-        
+                   [filename{rc} ' trial: ' trialnum{rc}]);
+
         rc = rc + 1;
     end
 end
