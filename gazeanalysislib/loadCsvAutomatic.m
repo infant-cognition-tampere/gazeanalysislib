@@ -65,16 +65,16 @@ function [DATA, HEADERS, fileformat, delimcount] = loadCsvAutomatic(file)
             % from str later on)
             fileformat = strcat(fileformat, '%s');
         else
-            if count(value, '.') == 0
+            if count(value, '.') == 0 && 0 <= str2num(value)
                 % int (does not contain point in the string)
                 fileformat = strcat(fileformat, '%d32');
             else
                 % float
                 fileformat = strcat(fileformat, '%f');
-            end                
+            end
         end
     end
-   
+    
     % read data columns
     DATA = textscan(str, fileformat, 'HeaderLines', 1, 'Delimiter', ...
                     delimiter);

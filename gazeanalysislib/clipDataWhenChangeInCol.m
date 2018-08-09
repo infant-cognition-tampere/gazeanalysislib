@@ -24,8 +24,8 @@ function [clips] = clipDataWhenChangeInCol(DATA, column)
     start = 1;
     for i=2:rowcount
         % compare current value to previous value
-        %current_value = getValueGAL(DATA, i, column);
-        current_value = values{i};
+        current_value = getValueGAL(DATA, i, column);
+        %current_value = values{i};
         if ~isequal(current_value, previous_value)
             %marker = mod(marker+1, 2);
             perioids = [perioids; start i-1];
