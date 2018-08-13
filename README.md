@@ -38,6 +38,16 @@ The library can be downloaded from here and the extracted folder added to
 Matlab-path. After that the library functions can be called and/or a script
 file containing function calls can be made.
 
+#### Example datafile
+Our git distribution includes an example file with example analysis. You can try
+and run the example by downloading gazeanalysislib, opening Matlab, going to
+gazeanalysislib folder and typing command:
+```
+example_script
+```
+The script analyses a file found in folder example_data and puts the resultfile
+to the same directory.
+
 #### Example script
 A short example of an analysis constructed with gazeanalysislib.
 ```
