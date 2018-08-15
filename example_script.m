@@ -10,7 +10,7 @@ ending = '.gazedata';
 folder = [pwd filesep 'example_data'];
 medianfilterlen = 7; % datapoints, for 60Hz
 accepted_validities = [0 1];
-visualization = 1
+visualization = 0;
 
 % make a container to predefine our AOI:s so that they are easily callable
 % from dict or "hashtable"
@@ -60,12 +60,21 @@ for j = 1:length(files)
     [DATA, HEADERS] = addNewColumn(DATA, HEADERS, combinedy, 'CombinedY');
     [DATA, HEADERS] = addNewColumn(DATA, HEADERS, newcombined, ...
                                    'CombinedValidity');
-                               
+    
+    % We need sample durations vector in the data-structure to be able to
+    % calculate some things. This vector is not there so we need to
+    % generate it using sample times vector.
+    sampletimesvector = getColumnGAL(DATA, timec);
+    [sampledurationsvector] = sampleDurations(sampletimesvector);
+    % Add this generated vector to our datastruct and headerstruct
+    [DATA, HEADERS] = addNewColumn(DATA, HEADERS, sampledurationsvector, 'sampledurations');
+
     % Find new columns numbers for the columns that were added
     combx = colNum(HEADERS, 'CombinedX');
     comby = colNum(HEADERS, 'CombinedY');
     combval = colNum(HEADERS, 'CombinedValidity');
-
+    durationc = colNum(HEADERS, 'sampledurations');
+    
     % Remove data rows where there is nothin in
     DATA = getRowsContainingAValue(DATA, idc);
 
@@ -79,6 +88,8 @@ for j = 1:length(files)
         % Select rows containing the desired value in a column
         dataclip = getRowsContainingValue(dataclip, idc, {'Face', 'target'});
 
+        dataclip = clipFirstMilliSeconds(dataclip, timec, 3000);
+        
         % Interpolate x and y, and apply median filter for x and y, as
         % specified in parameters
         dataclip = interpolateUsingLastGoodValue(dataclip, combx, combval, ...
@@ -96,6 +107,7 @@ for j = 1:length(files)
         
         % get the side of the target in this round
         side{rc} = getValueGAL(dataclip, 1, sidec);
+        
         % Check if the point of gaze entered the active target AOI, and
         first_time_in_aoi_row = gazeInAOIRow(dataclip, combx, comby, ...
                                              aois(side{rc}), 'first');
@@ -112,7 +124,7 @@ for j = 1:length(files)
         end
 
         % Calculate some metrics
-        longest_nvc(rc) = longestNonValidSection(dataclip, combval, timec, ...
+        longest_nvc(rc) = longestNonValidSection(dataclip, combval, durationc, ...
                                                  accepted_validities);
         validityc(rc) = validGazePercentage(dataclip, combval, ...
                                             accepted_validities);
@@ -126,8 +138,8 @@ for j = 1:length(files)
 
         % visualization
         if visualization
-            columns = [combx comby combval timec];   
-            figtitle = [filename{rc} ' trial: ' trialnum{rc}];
+            columns = [combx comby combval timec];
+            figtitle = [filename{rc} ' trial ' trialnum{rc}];
             delaytime = 0;
             savegaze = 0;
             imageparameters = {};
