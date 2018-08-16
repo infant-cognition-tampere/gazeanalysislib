@@ -10,7 +10,7 @@ ending = '.gazedata';
 folder = [pwd filesep 'example_data'];
 medianfilterlen = 7; % datapoints, for 60Hz
 accepted_validities = [0 1];
-visualization = 0;
+visualization = 1;
 
 % make a container to predefine our AOI:s so that they are easily callable
 % from dict or "hashtable"

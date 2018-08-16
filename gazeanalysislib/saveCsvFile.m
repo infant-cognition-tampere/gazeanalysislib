@@ -6,11 +6,6 @@ function saveCsvFile(filename, headers, varargin)
     % Matlab's writecsv contains some problematic aspects, e.g. in
     % systems with different separator-symbol.
 
-    % This is a variable for printing first line "sep=," so that exel and
-    % other programs have easier time in loading the csv-file. Might be
-    % added as parameter in future or removed.
-    print_sep_headerline = 1;
-    
     % check that there was parameters
     if length(varargin) < 1
         return;
@@ -32,9 +27,6 @@ function saveCsvFile(filename, headers, varargin)
 
     % print first 2 lines
     sep = ',';
-    if print_sep_headerline
-        fprintf(fid, 'sep=%s\n', sep);
-    end
     for i=1:length(headers)
         fprintf(fid, '%s', headers{i});
 
