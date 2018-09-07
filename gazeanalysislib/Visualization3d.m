@@ -19,34 +19,49 @@ classdef Visualization3d < handle
     end
 
     methods
-        function [obj] = Visualization3d(haxis, screenheight, screenwidth, trackerwidth, tracker_angle, az, el, titletxt, taillen)
+        function [obj] = Visualization3d(haxis, screenheight, ...
+                                         screenwidth,trackerwidth, ...
+                                         tracker_angle, az, el, ...
+                                         titletxt, taillen)
             % create rotation matrix
             % tracker angle with screen (smaller)
             obj.screenwidth = screenwidth;
             obj.screenheight = screenheight;
             obj.taillen = taillen;
             radalpha = deg2Rad(tracker_angle);
-            obj.rotation_matrix = [cos(radalpha), -sin(radalpha); sin(radalpha), cos(radalpha)];
+            obj.rotation_matrix = [cos(radalpha), -sin(radalpha);
+                                   sin(radalpha), cos(radalpha)];
             
             % create surfaces
             NANS = [NaN NaN;NaN NaN];
-            obj.heye1 = surf(haxis, NANS,NANS,NANS, 'linestyle', 'none', 'facecolor', [0.99 0.99 0.99], 'userdata', [NaN NaN NaN]);
+            obj.heye1 = surf(haxis, NANS,NANS,NANS, 'linestyle', ...
+                             'none', 'facecolor', [0.99 0.99 0.99], ...
+                             'userdata', [NaN NaN NaN]);
             set(haxis, 'xdir', 'reverse');
             
             view(az, el);
             hold on
-            obj.heye2 = surf(haxis, NANS,NANS,NANS, 'linestyle', 'none', 'facecolor', [0.99 0.99 0.99], 'userdata', [NaN NaN NaN]);
+            obj.heye2 = surf(haxis, NANS,NANS,NANS, 'linestyle', ...
+                             'none', 'facecolor', [0.99 0.99 0.99], ...
+                             'userdata', [NaN NaN NaN]);
             % draw display object
-            d = plot3([-screenwidth/2 screenwidth/2 screenwidth/2 0-screenwidth/2 0-screenwidth/2],...
-                      [0 0 screenheight screenheight 0], [0 0 0 0 0], 'black');
+            d = plot3([-screenwidth/2 screenwidth/2 screenwidth/2
+                       0-screenwidth/2 0-screenwidth/2],...
+                      [0 0 screenheight screenheight 0], ...
+                      [0 0 0 0 0], 'black');
             % draw tracker with angle (the height is somewhat this 2cm)
             tcoords = obj.rotation_matrix*[0;-2];
 
-            t = plot3([-trackerwidth/2 trackerwidth/2 trackerwidth/2 0-trackerwidth/2 0-trackerwidth/2], [tcoords(2) tcoords(2) 0 0 tcoords(2)], [tcoords(1) tcoords(1) 0 0 tcoords(1)], 'black');
+            t = plot3([-trackerwidth/2 trackerwidth/2 trackerwidth/2 
+                       0-trackerwidth/2 0-trackerwidth/2], ...
+                      [tcoords(2) tcoords(2) 0 0 tcoords(2)], ...
+                      [tcoords(1) tcoords(1) 0 0 tcoords(1)], 'black');
 
             for i=1:2
                 obj.hgazetrail(i) = plot3(NaN, NaN, NaN, 'black');
-                obj.hgazepoint(i) = surf(haxis, NANS,NANS,NANS, 'linestyle', 'none', 'facecolor', [0 0 1]);
+                obj.hgazepoint(i) = surf(haxis, NANS,NANS,NANS, ...
+                                         'linestyle', 'none', ...
+                                         'facecolor', [0 0 1]);
             end
             
             % vectors from eye to gazepoint
@@ -205,8 +220,11 @@ classdef Visualization3d < handle
         function addAoi(obj, aoi)
             taoi = [aoi(1) aoi(2) aoi(3) aoi(4)];
             hold on
-            haoi = plot3(obj.transformX([taoi(1) taoi(1) taoi(2) taoi(2) taoi(1)]), ... %.*obj.screenwidth - obj.screenwidth/2
-                         obj.transformY([taoi(3) taoi(4) taoi(4) taoi(3) taoi(3)]), [0.1 0.1 0.1 0.1 0.1], 'r'); %.*obj.screenheight
+            haoi = plot3(obj.transformX([taoi(1) taoi(1) taoi(2)
+                                         taoi(2) taoi(1)]), ...
+                         obj.transformY([taoi(3) taoi(4) taoi(4)
+                                         taoi(3) taoi(3)]), ...
+                        [0.1 0.1 0.1 0.1 0.1], 'r');
             hold off
             obj.swapAxis(haoi);
             obj.haois(end+1) = haoi;
