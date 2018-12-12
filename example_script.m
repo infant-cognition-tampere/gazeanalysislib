@@ -15,10 +15,9 @@ visualization = 1;
 % make a container to predefine our AOI:s so that they are easily callable
 % from dict or "hashtable"
 % [xstart xend ystart yend] 0..1
-aois = containers.Map;
-aois('center') = [0.4 0.6 0.4 0.6];
-aois('right') = [0.8 0.97 0.2 0.8];
-aois('left') = [0.03 0.2 0.2 0.8];
+aoi_center = [0.4 0.6 0.4 0.6];
+aoi_right = [0.8 0.97 0.2 0.8];
+aoi_left = [0.03 0.2 0.2 0.8];
 
 % Get all the files with .gazedata extension.
 files = findGazeFilesInFolder(folder, ending);
@@ -108,9 +107,15 @@ for j = 1:length(files)
         % get the side of the target in this round
         side{rc} = getValueGAL(dataclip, 1, sidec);
         
+        if strcmp(side{rc}, 'left')
+            side_aoi = aoi_left
+        else
+            side_aoi = aoi_right
+        end    
+        
         % Check if the point of gaze entered the active target AOI, and
         first_time_in_aoi_row = gazeInAOIRow(dataclip, combx, comby, ...
-                                             aois(side{rc}), 'first');
+                                             side_aoi, 'first');
 
         if first_time_in_aoi_row ~= -1
             % Gaze entered target AOI within the time window
@@ -129,7 +134,7 @@ for j = 1:length(files)
         validityc(rc) = validGazePercentage(dataclip, combval, ...
                                             accepted_validities);
         inside_aoi(rc) = gazeInAOIPercentage(dataclip, combx, comby, ...
-                                             timec, aois(side{rc}));
+                                             timec, side_aoi);
 
         % Gather information to the csv-file(s)
         [a, b, c] = fileparts(files{j});
@@ -143,7 +148,7 @@ for j = 1:length(files)
             delaytime = 0;
             savegaze = 0;
             imageparameters = {};
-            draw_aois = {aois('center'), aois(side{rc})};
+            draw_aois = {aoi_center, side_aoi};
             markertimes = [];
             disptext = 'This is example for 2d-plot animation';
             plotGazeAnimation(dataclip, columns, figtitle, delaytime, ...
