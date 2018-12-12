@@ -67,7 +67,7 @@ function [DATA, HEADERS, fileformat, delimcount] = loadCsvAutomatic(file)
         else
             if count(value, '.') == 0 && 0 <= str2num(value)
                 % int (does not contain point in the string)
-                fileformat = strcat(fileformat, '%d32');
+                fileformat = strcat(fileformat, '%d64');
             else
                 % float
                 fileformat = strcat(fileformat, '%f');
